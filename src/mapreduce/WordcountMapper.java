@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
+import org.codehaus.jettison.json.JSONObject;
 
 import java.io.IOException;
 
@@ -22,10 +23,16 @@ public class WordcountMapper extends Mapper<LongWritable,Text,Text,LongWritable>
         //key 是这样一行数据的起始偏移量
         //value是这一行的文本内容
         String line = value.toString();
-        String[] words = StringUtils.split(line, " ");
-        for (String word:words) {
-            //拿到一个单词发送出去
-            context.write(new Text(word),new LongWritable(1));
+        if(line.indexOf("{") != -1 && line.indexOf("}") != -1 ){
+            String json  = line.substring(line.indexOf("{"));
+
+            context.write(new Text(json),new LongWritable(1));
+
         }
+//        String[] words = StringUtils.split(line, " ");
+//        for (String word:words) {
+//            //拿到一个单词发送出去
+//            //context.write(new Text(word),new LongWritable(1));
+//        }
     }
 }

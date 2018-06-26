@@ -38,9 +38,9 @@ public class WordcountRunner {
         job.setMapOutputKeyClass(Text.class);
         job.setMapOutputValueClass(LongWritable.class);
         //指定原始数据存放的位置,输入数据
-        FileInputFormat.setInputPaths(job,new Path("/wc/srcdata"));
+        FileInputFormat.setInputPaths(job,new Path("/wc/srcdata2"));
         //处理结果，输出数据
-        FileOutputFormat.setOutputPath(job,new Path("/wc/output"));
+        FileOutputFormat.setOutputPath(job,new Path("/wc/output2"));
         //提交到集群运行
         job.waitForCompletion(true);
     }

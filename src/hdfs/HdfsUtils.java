@@ -31,7 +31,15 @@ public class HdfsUtils {
           fs = FileSystem.get(new URI("hdfs://192.168.31.168:9000/"),conf,"root");
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
+        //读取classpath下的xx-sit.xml配置文件，并解析其内容。封装到conf对象中
+        Configuration conf = new Configuration();
+        //FileSystem fs2 = FileSystem.get(new URI("hdfs://192.168.31.168:9000/"),conf,"root");
+        FileSystem fs2 = FileSystem.get(conf);
+
+        FSDataInputStream is = fs2.open(new Path("/test2.txt"));
+        FileOutputStream os = new FileOutputStream("D:/testDownload.txt");
+        IOUtils.copy(is,os);
 
     }
 
@@ -52,9 +60,10 @@ public class HdfsUtils {
     }
 
 
+
     //下载
     @Test
-    public void download() throws IOException {
+    public void download() throws Exception {
         fs.copyToLocalFile(false,new Path("/aa/ceshi2.txt"),new Path("D:/download.txt"),true);
     }
     //查看
@@ -69,7 +78,7 @@ public class HdfsUtils {
             System.out.println("filename:"+name);
 
         }
-        //查看当前目录下的文件和文件夹，可以判断是否为文件
+        //查看当前目录下的文件和文件夹，可以判断是否为 文件
         FileStatus[] listStatus = fs.listStatus(new Path("/"));
         for (FileStatus status:listStatus) {
             String name = status.getPath().getName();
@@ -87,7 +96,7 @@ public class HdfsUtils {
     //删除
     @Test
     public void deleted() throws IOException {
-        fs.delete(new Path("/aa"),true);
+        fs.delete(new Path("/wc/output"),true);
 
     }
 }
